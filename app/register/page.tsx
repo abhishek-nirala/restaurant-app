@@ -3,14 +3,14 @@
 import React, { useState } from 'react'
 import Login from '../component/Login'
 import SignUp from '../component/SignUp'
-// import Header from '../_component/Header'
+import Header from '../component/Header'
 import Footer from '../component/Footer'
 
 const Register = () => {
   const [login, setLogin] = useState(true)
   return (
     <div className='text-center'>
-      {/* <Header/> */}
+      <Header/> 
       <h1 className='text-3xl'>Register</h1>
       {
         login ? <Login  /> : <SignUp />
