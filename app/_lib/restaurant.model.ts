@@ -6,20 +6,31 @@ const restaurantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    "first name" : {
-        type : String
+    firstName: {
+        type: String,
+        required: true
     },
-    "last name" : {
-        type : String
+    lastName: {
+        type: String,
+        required: true
     },
-    password : {
-        type : String
+    password: {
+        type: String,
+        required: true,
+        minLenght : 4
     },
-    city : {
-        type : String
+    city: {
+        type: String,
+        required: true,
+        minLenght : 3
     },
-    contact : Number
-} , {timestamps : true})
+    contact: {
+        type: Number,
+        required: true,
+        length:10
+
+    }
+}, { timestamps: true })
 
 // const Restaurant = mongoose.models.Restaurant ||  mongoose.model("restaurant", restaurantSchema)
 export default mongoose.models.Restaurant || mongoose.model('Restaurant', restaurantSchema);
