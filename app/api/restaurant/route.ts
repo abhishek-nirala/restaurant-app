@@ -22,13 +22,27 @@ export async function GET() {
 }
 
 export async function POST(response: NextResponse) {
+
+    const payload = await response.json()
     let result;
-    try {
-        const payload = await response.json()
-        const restaurant = new Restaurant(payload);
-        result = await restaurant.save()
-    } catch (error) {
-        console.log(error)
+    let success = false;
+    if (payload.login) {
+        //use login logic
+        try {
+            result = await Restaurant.findOne({ email: payload.email, password: payload.password })
+            if (result) success = true;
+        } catch (err) {
+            console.log(err);
+        }
+    } else {
+
+        try {
+            const restaurant = new Restaurant(payload);
+            result = await restaurant.save()
+            if (result) success = true;
+        } catch (error) {
+            console.log(error)
+        }
     }
-    return NextResponse.json({ result, success: true })
+    return NextResponse.json({ result, success })
 }

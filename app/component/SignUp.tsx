@@ -71,10 +71,10 @@ const SignUp = () => {
                 <input className='m-2 text-xl p-2 w-96  border border-black rounded ' type="email" name='email' placeholder='Enter Email' value={email} onChange={(e) => setEmail(e.target.value)} />
                 {error && !email && <span className='text-red-500'>email is required</span>}
 
-                <input className='m-2 text-xl p-2 w-96  border border-black rounded ' name='firstName' type="text" placeholder='Enter first name' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                <input className='m-2 text-xl p-2 w-96  border border-black rounded '  type="text" name='firstName' placeholder='Enter first name' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                 {error && !firstName && <span className='text-red-500'>first name is required</span>}
 
-                <input className='m-2 text-xl p-2 w-96  border border-black rounded ' type="text" placeholder='Enter last name' name='last' value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                <input className='m-2 text-xl p-2 w-96  border border-black rounded ' type="text" placeholder='Enter last name' name='lastName' value={lastName} onChange={(e) => setLastName(e.target.value)} />
                 {error && !lastName && <span className='text-red-500'>last name is required</span>}
 
                 <input className='m-2 text-xl p-2 w-96  border border-black rounded ' type="password" placeholder='Enter Password' name='password' value={password} onChange={(e) => setPassword(e.target.value)} />
