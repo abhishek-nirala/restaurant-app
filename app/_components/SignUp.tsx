@@ -54,7 +54,7 @@ const SignUp = () => {
         console.log(data);
 
         if (data.success) {
-            const { result } = data as { result: RestaurantsDetails };
+            const { result } = data as {result: RestaurantsDetails };
             delete result.password;
             localStorage.setItem("restaurantDetails", JSON.stringify(result))
             router.push('/dashboard')

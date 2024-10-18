@@ -1,4 +1,4 @@
-import { connectionStr } from "@/app/_lib/data";
+import { connectionStr } from "@/app/_lib/db.connectionStr";
 import Restaurant from "@/app/_lib/restaurant.model";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";

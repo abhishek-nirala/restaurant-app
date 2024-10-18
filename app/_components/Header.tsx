@@ -37,7 +37,7 @@ export const Header = () => {
     }
 
     // useAuth(isLoggedIn);
-    return (<div className="flex bg-slate-500 justify-between p-3">
+    return (<div className="flex  justify-between p-3">
         <div >
             <Image src="/logo.png" width={60} height={60} alt="restaurant logo" className="h-auto w-auto" />
         </div>

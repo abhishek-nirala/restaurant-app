@@ -1,10 +1,10 @@
 "use client"
 
 import React, { useState } from 'react'
-import Login from '../component/Login'
-import SignUp from '../component/SignUp'
-import Header from '../component/Header'
-import Footer from '../component/Footer'
+import Login from '../_components/Login'
+import SignUp from '../_components/SignUp'
+import Header from '../_components/Header'
+import Footer from '../_components/Footer'
 
 const Register = () => {
   const [login, setLogin] = useState(true)
