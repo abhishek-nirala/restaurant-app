@@ -1,5 +1,7 @@
 'use client'
 
+//for updating dish items
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -20,7 +22,8 @@ const EditDishes: React.FC<AddDishesProps> = (props) => {
 
     useEffect(() => {
         handleUpdate();
-    })
+    }, [] )
+
     const handleUpdate = async () => {
         try {
             const response = await fetch(`http://localhost:3000/api/restaurant/dish/edit/${props.params.id}`)
@@ -28,7 +31,7 @@ const EditDishes: React.FC<AddDishesProps> = (props) => {
             if (data.success) {
                 console.log("the dish data : ", data.result)
                 setName(data.result.dishName)
-                setPrice(data.result.dishPrice )
+                setPrice(data.result.dishPrice)
                 setPath(data.result.dishImgPath)
                 setDiscription(data.result.dishDescription)
             }
@@ -51,6 +54,13 @@ const EditDishes: React.FC<AddDishesProps> = (props) => {
         } else {
             setError(false)
         }
+
+        const response = await fetch(`http://localhost:3000/api/restaurant/dish/edit/${props.params.id}`, {
+            method: "PUT",
+            body: JSON.stringify({ dishName: name, dishPrice: price, dishImgPath: path, dishDescription: description })
+        })
+        const data = await response.json();
+        if(data.success) alert("item successfully updated")
 
 
 
