@@ -4,7 +4,7 @@ interface AddDishesProps {
     setItem: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const AddDishes: React.FC<AddDishesProps> = (props) => {
+const EditDishes: React.FC<AddDishesProps> = (props) => {
 
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
@@ -22,20 +22,7 @@ const AddDishes: React.FC<AddDishesProps> = (props) => {
             setError(false)
         }
 
-        const localStorageDataString = localStorage.getItem("restaurantDetails"); //in the string format;
-        const localStorageData = localStorageDataString ? JSON.parse(localStorageDataString) : null; //checks if data is available then parse it from string to json. Because JSON.parse() can't handle null;
-
-        const restoId = localStorageData._id;
-
-        const response = await fetch("http://localhost:3000/api/restaurant/dish", {
-            method: "POST",
-            body: JSON.stringify({ dishName: name, dishPrice: price, dishImgPath: path, dishDescription: description, restoId })
-        })
-        const data = await response.json();
-        console.log(data);
-        if (data.success)
-            props.setItem(false) //  alert("dish successfully added")
-        else alert("dish not added")
+      
 
 
     }
@@ -65,4 +52,4 @@ const AddDishes: React.FC<AddDishesProps> = (props) => {
     </div>)
 }
 
-export default AddDishes;
+export default EditDishes;

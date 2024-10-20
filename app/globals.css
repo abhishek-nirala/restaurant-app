@@ -20,13 +20,17 @@ table,td,th{
 .isActive{
   background-color: bisque;
 }
+body{
+  background-color: #123;
+  color: #fff;
+}
 
 /* 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

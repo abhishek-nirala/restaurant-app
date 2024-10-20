@@ -1,34 +1,44 @@
 import { connectionStr } from "@/app/_lib/db.connectionStr";
 import Dish from "@/app/_lib/dishes.model";
-import mongoose, { ConnectOptions } from "mongoose";
 import { NextResponse } from "next/server";
+import mongoose from 'mongoose'
+// import { NextApiResponse} from 'next'
 
 interface Content {
     params: {
         restoId: string;
+        id: string;
     }
 }
-interface Options extends ConnectOptions {
-    useNewUrlParser?: boolean;
-    useUnifiedTopology?: boolean;
-
-}
-const options: Options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}
 
 
-mongoose.connect(connectionStr, options)
-    .then(() => console.log("mongodb successfully connected"))
-    .catch((err) => console.log("error while connecting to mongodb err : ", err))
 
-export async function GET(request: NextResponse, content: Content) {
+mongoose.connect(connectionStr)
+    .then(() => console.log("mongodb successfully connected at api/restaurant/dish/[restoId]/route.ts"))
+    .catch((err: string) => console.log("error while connecting to mongodb err : ", err))
+
+export async function GET(request: NextResponse,content: Content) {
     let result, success = false;
+
     try {
         const id = content.params.restoId;
-        result = await Dish.find({dishName : id});
+        result = await Dish.find({ restoId: id });
         if (result) success = true;
+
+    } catch (error) {
+        console.log(error);
+    }
+
+    return NextResponse.json({ result, success })
+}
+
+export async function DELETE(request: NextResponse,content: Content) {
+    let result, success = false;
+
+    try {
+        const id = content.params.restoId;
+        result = await Dish.deleteOne({ _id: id });
+        if (result.deletedCount>0) success = true;
 
     } catch (error) {
         console.log(error);
