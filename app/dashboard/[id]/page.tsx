@@ -1,11 +1,11 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface AddDishesProps {
     setItem: React.Dispatch<React.SetStateAction<boolean>>
-    params: { id: string ;};
+    params: { id: string; };
 }
 
 const EditDishes: React.FC<AddDishesProps> = (props) => {
@@ -17,6 +17,29 @@ const EditDishes: React.FC<AddDishesProps> = (props) => {
     const [description, setDiscription] = useState('')
     const [error, setError] = useState(false)
     const router = useRouter();
+
+    useEffect(() => {
+        handleUpdate();
+    })
+    const handleUpdate = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/restaurant/dish/edit/${props.params.id}`)
+            const data = await response.json();
+            if (data.success) {
+                console.log("the dish data : ", data.result)
+                setName(data.result.dishName)
+                setPrice(data.result.dishPrice )
+                setPath(data.result.dishImgPath)
+                setDiscription(data.result.dishDescription)
+            }
+
+
+        } catch (err) {
+            console.log(err);
+
+        }
+
+    }
 
     const handleEditDishes = async () => {
         console.log(name, price, path, description);
@@ -57,7 +80,7 @@ const EditDishes: React.FC<AddDishesProps> = (props) => {
             <button className="text-xl m-3 border rounded border-black p-3 hover:bg-slate-400 hover:transition hover:duration-250 hover:text-white box" onClick={handleEditDishes}>Update Dishes</button>
         </div>
         <div>
-            <button className="text-xl m-3 border rounded border-black p-3 hover:bg-slate-400 hover:transition hover:duration-250 hover:text-white box" onClick={()=>router.push('/dashboard')}>Go to Dashboard</button>
+            <button className="text-xl m-3 border rounded border-black p-3 hover:bg-slate-400 hover:transition hover:duration-250 hover:text-white box" onClick={() => router.push('/dashboard')}>Go to Dashboard</button>
         </div>
     </div>)
 }
