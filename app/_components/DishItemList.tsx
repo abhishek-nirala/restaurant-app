@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 // import second from ''
 
@@ -16,6 +17,7 @@ interface DishItem {
  
 const DishItemList = () => {
     const [dishItems, setDishItems] = useState([]);
+    const router = useRouter();
     useEffect(() => {
         loadDishItems();
     }, [])
@@ -76,7 +78,7 @@ const DishItemList = () => {
                                 <td>{item.dishPrice}</td>
                                 <td>{item.dishDescription}</td>
                                 <td><Image src={item.dishImgPath || '/logo.png'} alt="images of food items" width={128} height={60} className="w-auto h-auto" /></td>
-                                <td><button className="py-1 px-2 hover:bg-slate-500 hover:text-white m-3 border border-black" onClick={() => { handleDelete(item._id) }}>Delete</button><button className="py-1 px-2 hover:bg-slate-500 hover:text-white m-3 border border-black">Edit</button></td>
+                                <td><button className="py-1 px-2 hover:bg-slate-500 hover:text-white m-3 border border-black" onClick={() => { handleDelete(item._id) }}>Delete</button><button className="py-1 px-2 hover:bg-slate-500 hover:text-white m-3 border border-black" onClick={()=>router.push(`/dashboard/${item._id}`)}>Edit</button></td>
                             </tr>
                         ))
                     }
