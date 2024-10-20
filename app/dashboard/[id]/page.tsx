@@ -22,7 +22,7 @@ const EditDishes: React.FC<AddDishesProps> = (props) => {
 
     useEffect(() => {
         handleUpdate();
-    }, [] )
+    }, [])
 
     const handleUpdate = async () => {
         try {
@@ -60,11 +60,8 @@ const EditDishes: React.FC<AddDishesProps> = (props) => {
             body: JSON.stringify({ dishName: name, dishPrice: price, dishImgPath: path, dishDescription: description })
         })
         const data = await response.json();
-        if(data.success) alert("item successfully updated")
-
-
-
-
+        if (data.success) router.push("/dashboard")
+        else alert("item didn't got updated! Please try again")
     }
 
     return (<div className="text-center">

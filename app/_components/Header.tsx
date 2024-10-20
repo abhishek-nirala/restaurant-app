@@ -22,13 +22,6 @@ export const Header = () => {
             setDetails(JSON.parse(localStorageData))
         }
 
-        // if (!localStorageData)
-        //     setisLoggedIn(false);
-        // else {
-        //         setDetails(JSON.parse(localStorageData))
-        //         setisLoggedIn(true);
-        //     }
-
     }, [router ,pathname])
 
     const handleLogout = () =>{

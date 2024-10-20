@@ -1,19 +1,17 @@
 import mongoose from 'mongoose'
 
 
-const restaurantSchema = new mongoose.Schema({
+
+const restaurantSchema= new mongoose.Schema({
     email: {
         type: String,
         required: true
     },
-    firstName: {
+    name: {
         type: String,
         required: true
     },
-    lastName: {
-        type: String,
-        required: true
-    },
+
     password: {
         type: String,
         required: true,
@@ -27,8 +25,6 @@ const restaurantSchema = new mongoose.Schema({
     contact: {
         type: Number,
         required: true,
-        length:10
-
     }
 }, { timestamps: true })
 

@@ -3,33 +3,42 @@ import Restaurant from "@/app/_lib/restaurant.model";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
+
+interface RestaurantSchema {
+    email : string;
+    name : string;
+    password : string;
+    city : string;
+    contact : number;
+    login : boolean;
+}
+
 mongoose.connect(connectionStr)
     .then(() => console.log("mongodb connected"))
     .catch((err) => console.log(err))
 
 export async function GET() {
+    let data , success = false;
     try {
-        const data = await Restaurant.find()
-        // console.log("in data");
-        console.log(data);
-        // console.log("out data");
+        data = await Restaurant.find()
+        if(data) success = true;
 
     } catch (err) {
         console.log(err)
     }
 
-    return NextResponse.json({ 'msg': 'true' })
+    return NextResponse.json({ data, success })
 }
 
 export async function POST(response: NextResponse) {
 
-    const payload = await response.json()
+    const payload:RestaurantSchema = await response.json()
     let result;
     let success = false;
     if (payload.login) {
-        //use login logic
+       
         try {
-            result = await Restaurant.findOne({ email: payload.email, password: payload.password })
+            result = await Restaurant.findOne({ email: payload.email, password: payload.password }) 
             if (result) success = true;
         } catch (err) {
             console.log(err);
@@ -37,6 +46,7 @@ export async function POST(response: NextResponse) {
     } else {
 
         try {
+            await mongoose.connect(connectionStr);
             const restaurant = new Restaurant(payload);
             result = await restaurant.save()
             if (result) success = true;

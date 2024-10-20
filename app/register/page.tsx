@@ -17,7 +17,7 @@ const Register = () => {
       }
 
       <div className="btn">
-        <button onClick={() => { setLogin(!login) }} className='m-2 text-xl p-1  border border-black rounded'>
+        <button onClick={() => { setLogin(!login) }} className='m-2 text-xl p-1  text-white'>
           {login ? "Do not have an account?SignUp" : "Already have na account?LoginUp"}
         </button>
       </div>

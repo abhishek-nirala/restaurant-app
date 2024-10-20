@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation'
 
 const SignUp = () => {
     const router = useRouter();
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [c_password, setC_Password] = useState('')
@@ -22,7 +21,6 @@ const SignUp = () => {
     interface RestaurantsDetails {
         email: string;
         "first name": string;
-        "last name": string;
         password?: string;
         city: string;
         contact: number;
@@ -37,7 +35,7 @@ const SignUp = () => {
         } else {
             setPasswordError(false)
         }
-        if (!firstName || !lastName || !email || !password || !c_password || !city || !contact) {
+        if (!name || !email || !password || !c_password || !city || !contact) {
             setError(true)
             return false;
         } else {
@@ -45,10 +43,10 @@ const SignUp = () => {
         }
 
         // return false;
-        console.log(firstName, lastName, email, password, c_password, city, contact)
+        console.log(name, email, password, c_password, city, contact)
         const response = await fetch("http://localhost:3000/api/restaurant", {
             method: "POST",
-            body: JSON.stringify({ email, firstName, lastName, password, c_password, city, contact })
+            body: JSON.stringify({ email, name, password,city, contact })
         })
         const data: ApiResponse = await response.json();
         console.log(data);
@@ -63,35 +61,33 @@ const SignUp = () => {
 
     return (
         
-        <div className=''>
-            +
-            <h1 className='text-2xl wrapper '>SignUP</h1>
-            <div className="wrapper flex gap-8 flex-col w-56">
+        <div className='flex justify-center items-center w-full h-screen   '>
+            
+            <h1 className='text-5xl wrapper w-[50%] h-[100%] flex justify-center items-center'>SignUP</h1>
 
-                <input className='m-2 text-xl p-2 w-96  border border-black rounded ' type="email" name='email' placeholder='Enter Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+            <div className="wrapper gap-8 flex-col w-[50%] h-[100%] flex justify-center items-center">
+
+                <input className='m-2 text-xl text-black p-2 w-96  border border-black rounded ' type="email" name='email' placeholder='Enter Email' value={email} onChange={(e) => setEmail(e.target.value)} />
                 {error && !email && <span className='text-red-500'>email is required</span>}
 
-                <input className='m-2 text-xl p-2 w-96  border border-black rounded '  type="text" name='firstName' placeholder='Enter first name' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                {error && !firstName && <span className='text-red-500'>first name is required</span>}
+                <input className='m-2 text-xl text-black p-2 w-96  border border-black rounded '  type="text" name='name' placeholder='Enter Restaurant name' value={name} onChange={(e) => setName(e.target.value)} />
+                {error && !name && <span className='text-red-500'>restaurant name is required</span>}
 
-                <input className='m-2 text-xl p-2 w-96  border border-black rounded ' type="text" placeholder='Enter last name' name='lastName' value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                {error && !lastName && <span className='text-red-500'>last name is required</span>}
-
-                <input className='m-2 text-xl p-2 w-96  border border-black rounded ' type="password" placeholder='Enter Password' name='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input className='m-2 text-xl text-black p-2 w-96  border border-black rounded ' type="password" placeholder='Enter Password' name='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                 {passwordError  && <span className='text-red-500'>Password and confirm password not matched</span>}
                 {error && !password && <span className='text-red-500'>password is required</span>}
 
 
-                <input className='m-2 text-xl p-2 w-96  border border-black rounded ' type="password" placeholder='Confirm Password' value={c_password} onChange={(e) => setC_Password(e.target.value)} />
+                <input className='m-2 text-xl text-black p-2 w-96  border border-black rounded ' type="password" placeholder='Confirm Password' value={c_password} onChange={(e) => setC_Password(e.target.value)} />
                 {error && !c_password && <span className='text-red-500'>confirm password is required</span>}
 
-                <input className='m-2 text-xl p-2 w-96  border border-black rounded ' type="text" placeholder='Enter City' name='city' value={city} onChange={(e) => setCity(e.target.value)} />
+                <input className='m-2 text-xl text-black p-2 w-96  border border-black rounded ' type="text" placeholder='Enter City' name='city' value={city} onChange={(e) => setCity(e.target.value)} />
                 {error && !city && <span className='text-red-500'>city is required</span>}
 
-                <input className='m-2 text-xl p-2 w-96  border border-black rounded ' type="number" placeholder='Contact Number' name='contact' value={contact} onChange={(e) => setContact(e.target.value)} />
+                <input className='m-2 text-xl text-black p-2 w-96  border border-black rounded ' type="number" placeholder='Contact Number' name='contact' value={contact} onChange={(e) => setContact(e.target.value)} />
                 {error && !contact && <span className='text-red-500'>contact is required</span>}
 
-                <button className='m-2 text-xl p-1  border border-black rounded' onClick={handleSignup}>SignUP</button>
+                <button className='m-2 text-xl text-white p-1  border border-white rounded py-1 px-3' onClick={handleSignup}>SignUP</button>
             </div>
         </div>
 
