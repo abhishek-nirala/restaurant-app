@@ -8,13 +8,10 @@ interface DishItem {
     dishName: string;
     dishPrice: number;
     dishDescription: string;
-    dishImgPath?: string; // optional property if you're not always using images
+    dishImgPath?: string;
 }
-// interface Result {
-//     acknowledge:boolean;
-//     deleteCount:number;
-// }
- 
+
+
 const DishItemList = () => {
     const [dishItems, setDishItems] = useState([]);
     const router = useRouter();
@@ -22,31 +19,37 @@ const DishItemList = () => {
         loadDishItems();
     }, [])
 
-    const loadDishItems = async () => {
-        const restoData = localStorage.getItem("restaurantDetails")
-        const restaurantId = restoData ? JSON.parse(restoData) : null;
-        const _id = restaurantId._id;
+    const loadDishItems = async () => {  // for fetching dish items from the databse.
 
-        const response = await fetch(`http://localhost:3000/api/restaurant/dish/${_id}`)
-        const data = await response.json();
-        console.log(data);
+        try {
+            const restoData = localStorage.getItem("restaurantDetails")
+            const restaurantId = restoData ? JSON.parse(restoData) : null;
+            const _id = restaurantId._id;
 
-        if (data.success) {
-            setDishItems(data.result);
+            const response = await fetch(`http://localhost:3000/api/restaurant/dish/${_id}`)
+            const data = await response.json();
+            // console.log(data); 
+
+            if (data.success) {
+                setDishItems(data.result);
+            }
+        } catch (err) {
+            console.log("Error while loading Dish Items : ", err);
+
         }
 
     }
 
     const handleDelete = async (id: string) => {
-        
+
         try {
-            const response= await fetch(`http://localhost:3000/api/restaurant/dish/${id}`, {
+            const response = await fetch(`http://localhost:3000/api/restaurant/dish/${id}`, {
                 method: "DELETE"
             })
             const data = await response.json();
             if (data.success) {
                 loadDishItems();
-            }else{
+            } else {
                 alert("Dish item didn't got deleted")
             }
         } catch (err) {
@@ -78,7 +81,7 @@ const DishItemList = () => {
                                 <td>{item.dishPrice}</td>
                                 <td>{item.dishDescription}</td>
                                 <td><Image src={item.dishImgPath || '/logo.png'} alt="images of food items" width={128} height={60} className="w-auto h-auto" /></td>
-                                <td><button className="py-1 px-2 hover:bg-slate-500 hover:text-white m-3 border border-black" onClick={() => { handleDelete(item._id) }}>Delete</button><button className="py-1 px-2 hover:bg-slate-500 hover:text-white m-3 border border-black" onClick={()=>router.push(`/dashboard/${item._id}`)}>Edit</button></td>
+                                <td><button className="py-1 px-2 hover:bg-slate-500 hover:text-white m-3 border border-black" onClick={() => { handleDelete(item._id) }}>Delete</button><button className="py-1 px-2 hover:bg-slate-500 hover:text-white m-3 border border-black" onClick={() => router.push(`/dashboard/${item._id}`)}>Edit</button></td>
                             </tr>
                         ))
                     }

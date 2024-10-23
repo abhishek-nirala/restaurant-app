@@ -43,7 +43,7 @@ const SignUp = () => {
         }
 
         // return false;
-        console.log(name, email, password, c_password, city, contact)
+        // console.log(name, email, password, c_password, city, contact)
         const response = await fetch("http://localhost:3000/api/restaurant", {
             method: "POST",
             body: JSON.stringify({ email, name, password,city, contact })

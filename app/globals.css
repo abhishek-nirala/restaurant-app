@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 .wrapper{
   margin: 10px;
 }
@@ -10,6 +12,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+*:focus{
+  outline: none;
 }
 
 table,td,th{
@@ -23,6 +28,17 @@ table,td,th{
 body{
   background-color: #123;
   color: #fff;
+}
+.main-div{
+  background-image: url("/_4f309ecb-8c0c-4538-b85b-8eb09970325b.jpeg");
+  background-color: rgb(0, 0, 0,0.3);
+  background-blend-mode: multiply;
+  padding: 30px;
+  height: 530px;
+}
+.main-div h1{
+  font-weight: 800;
+  /* margin: 15px; */
 }
 
 /* 

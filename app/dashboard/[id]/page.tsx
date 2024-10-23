@@ -11,7 +11,7 @@ interface AddDishesProps {
 }
 
 const EditDishes: React.FC<AddDishesProps> = (props) => {
-    console.log(props.params.id);
+    // console.log(props.params.id);
 
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
@@ -45,7 +45,7 @@ const EditDishes: React.FC<AddDishesProps> = (props) => {
     }
 
     const handleEditDishes = async () => {
-        console.log(name, price, path, description);
+        // console.log(name, price, path, description);
 
 
         if (!name || !price || !path || !description) {

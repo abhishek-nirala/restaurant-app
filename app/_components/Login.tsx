@@ -25,23 +25,28 @@ const Login = () => {
     } else {
       setError(false)
     }
+    try {
+      const response = await fetch("http://localhost:3000/api/restaurant", {
+        method: "POST",
+        body: JSON.stringify({ email, password, login: true })
+      })
+      const data: ApiRes = await response.json()
+      
+      if (data.success) {
+        const { result } = data;
+        delete result.password;
+        localStorage.setItem("restaurantDetails", JSON.stringify(result))
+        router.push("/dashboard");
+      } else {
+        alert("loggedIn failed")
 
-    const response = await fetch("http://localhost:3000/api/restaurant", {
-      method: "POST",
-      body: JSON.stringify({ email, password, login: true })
-    })
-    const data: ApiRes = await response.json()
-    if (data.success) {
-      const { result } = data;
-      delete result.password;
-      localStorage.setItem("restaurantDetails", JSON.stringify(result))
-      router.push("/dashboard"); 
-    } else {
-      alert("loggedIn failed")
+      }
+    } catch (err) {
+      console.log("Error while LogIn : ", err);
 
     }
 
-    console.log(password, email)
+    // console.log(password, email)
   }
 
   return (

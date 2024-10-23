@@ -12,7 +12,7 @@ export const Header = () => {
 
     useEffect(() => {
         const localStorageData = localStorage.getItem("restaurantDetails")
-        console.log(localStorageData);
+        // console.log(localStorageData);
 
         if (!localStorageData ) {
             router.push('/register')
