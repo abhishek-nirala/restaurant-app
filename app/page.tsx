@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { useRouter } from "next/navigation";
 
 
 interface ItemsList {
@@ -23,6 +24,7 @@ export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState('')
   const [showLocation, setShowLocation] = useState(false)
   const [restaurants, setRestaurants] = useState([])
+  const router = useRouter();
 
   useEffect(() => {
     handleLocation();
@@ -90,7 +92,7 @@ export default function Home() {
       <div className=" py-9 px-16 sm:px-10 mt-5 rounded-2xl">
         <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {restaurants.map((items: ItemsList, key) => (
-            <Card key={key} className="">
+            <Card key={key} className="" onClick={()=>router.push(`/explore/${items.name}`)}>
               <CardHeader>
                 <CardTitle>{items.name}</CardTitle>
                 <CardDescription>{items.contact}</CardDescription>
