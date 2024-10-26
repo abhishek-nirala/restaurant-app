@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 
 
 interface ItemsList {
+  _id : string;
   name: string;
   city: string;
   contact: number;
@@ -92,7 +93,7 @@ export default function Home() {
       <div className=" py-9 px-16 sm:px-10 mt-5 rounded-2xl">
         <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {restaurants.map((items: ItemsList, key) => (
-            <Card key={key} className="" onClick={()=>router.push(`/explore/${items.name}`)}>
+            <Card key={key} className="bg-[#123]" onClick={()=>router.push(`/explore/${items.name}?id=${items._id}`)}>
               <CardHeader>
                 <CardTitle>{items.name}</CardTitle>
                 <CardDescription>{items.contact}</CardDescription>
