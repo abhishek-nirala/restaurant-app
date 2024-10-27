@@ -21,7 +21,7 @@ const CustomerHeader: React.FC<{ cartData: CartData }> = ({ cartData }) => {
 
     useEffect(() => {
         if (cartData) {
-            console.log('cartdata  : ', cartData);
+            // console.log('cartdata  : ', cartData);
             
             if (cartNumber) {
                 const localCartItem = cartItem;

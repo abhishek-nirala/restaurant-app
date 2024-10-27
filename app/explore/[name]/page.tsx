@@ -11,15 +11,24 @@ const Page = (props: Props) => {
     const [restaurantDetails, setRestaurantDetails] = useState({})
     const [foodItems, setfoodItems] = useState([])
     const [cart, setCart] = useState();
-    const name = props.params.name // o used in dynamic routes to access the dynamic parts of a URL. mostly in page.tsx
+    const name = props.params.name //used in dynamic routes to access the dynamic parts of a URL. mostly in page.tsx
+
+    const cartStore = localStorage.getItem('cart')
+    const cartStorageDetails = cartStore ? JSON.parse(cartStore) : null;
+    const [cartStorage, setCartStorage] = useState(cartStorageDetails || [])
+    const [cartId, setCartId] = useState(() => cartStorage.map((item: { _id: string }) => {
+        return item._id;
+    }))
 
     useEffect(() => {
         loadRestaurantDetails()
     }, []);
+    console.log(cartId);
+
 
     const loadRestaurantDetails = async () => {
         const id = props.searchParams.id; //is used to access query parameters from the URL. mostly in components.
-        console.log(id);
+        // console.log(id);
         try {
             const response = await fetch("http://localhost:3000/api/customer/" + id)
             const data = await response.json();
@@ -32,16 +41,20 @@ const Page = (props: Props) => {
         }
 
     }
-    const addToCart = (item)=>{
+    const addToCart = (item: { _id: string; }) => {
         setCart(item)
+        //code to change the add to cart button to remove from cart imediately.
+        const localCartId = cartId;
+        localCartId.push(item._id);
+        setCartId(localCartId)
     }
 
     // console.log(cart)
 
-    
+
 
     return (<>
-        <CustomerHeader cartData={cart}/>
+        <CustomerHeader cartData={cart} />
         <div>
             <div className="main-div text-center">
                 <h1 className=" text-5xl m-14 mt-[250px] ">{decodeURI(name)}</h1>
@@ -65,7 +78,12 @@ const Page = (props: Props) => {
                                     <li>Price : Rs {items.dishPrice} </li>
                                     <li> {items.dishDescription} </li>
                                 </ul>
-                                <button className="border p-2 rounded-lg bg-orange-600" onClick={()=>addToCart(items)}>Add to Cart</button>
+                                {
+                                    cartId.includes(items._id) ?
+                                        <button className="border p-2 rounded-lg bg-orange-600" >Remove from Cart</button>
+                                        :
+                                        <button className="border p-2 rounded-lg bg-orange-600" onClick={() => addToCart(items)}>Add to Cart</button>
+                                }
                             </div>
                         </div>
                     ))
