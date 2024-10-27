@@ -1,8 +1,45 @@
 import Image from "next/image";
 import Link from 'next/link'
-const CustomerHeader  = ()=>{
+import { useEffect, useState } from "react";
 
-    return(<div className="flex  justify-between items-center p-3">
+interface CartData {
+    items: Array<{
+        id: number;
+        name: string;
+        price: number;
+        quantity: number;
+    }>;
+}
+const CustomerHeader: React.FC<{ cartData: CartData }> = ({ cartData }) => {
+
+    
+    const cartStorage = localStorage.getItem('cart')
+    const cartStorageDetails = cartStorage ? JSON.parse(cartStorage) : null;
+    
+    const [cartNumber, setCartNumber] = useState(cartStorageDetails?.length); //no of cartItems.
+    const [cartItem, setCartItem] = useState<CartData[]>([cartStorageDetails])  //all the cart items are stored in it.
+
+    useEffect(() => {
+        if (cartData) {
+            console.log('cartdata  : ', cartData);
+            
+            if (cartNumber) {
+                const localCartItem = cartItem;
+                localCartItem.push(JSON.parse(JSON.stringify(cartData)));
+                setCartItem(localCartItem);
+                setCartNumber(cartNumber+1)
+                localStorage.setItem('cart', JSON.stringify(localCartItem))
+            } else {
+                setCartNumber(1)
+                setCartItem([cartData])
+                localStorage.setItem('cart', JSON.stringify([cartData]))
+            }
+
+        }
+    }, [cartData])
+
+
+    return (<div className="flex  justify-between items-center p-3">
         <div >
             <Image src="/logo.png" width={60} height={60} alt="restaurant logo" className="h-auto w-auto" />
         </div>
@@ -21,9 +58,9 @@ const CustomerHeader  = ()=>{
                     <Link className="text-2xl " href="/">SignUP</Link>
                 </li>
                 <li className="px-5">
-                    <Link className="text-2xl " href="/">Cart(0)</Link>
+                    <Link className="text-2xl " href="/">Cart({cartNumber ? cartNumber : 0})</Link>
                 </li>
-               
+
 
 
 

@@ -4,43 +4,51 @@
 
 
 
-.wrapper{
+.wrapper {
   margin: 10px;
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-*:focus{
+
+*:focus {
   outline: none;
 }
 
-table,td,th{
+table,
+td,
+th {
   border: 2px solid black;
   border-collapse: collapse;
   padding: 10px;
 }
-.isActive{
+
+.isActive {
   background-color: bisque;
 }
-body{
+
+body {
   background-color: #123;
   color: #fff;
 }
-.main-div{
+
+.main-div {
   background-image: url("/homeBgImg.jpeg");
-  background-color: rgb(0, 0, 0,0.5);
+  background-color: rgb(0, 0, 0, 0.5);
   background-blend-mode: multiply;
   padding: 30px;
   height: 530px;
 }
-.main-div h1{
+
+.main-div h1 {
   font-weight: 800;
   /* margin: 15px; */
 }
-.location-li{
+
+.location-li {
   width: 180px;
   padding: 5px;
   border-bottom: 1px solid #ccc;
@@ -76,6 +84,7 @@ body{
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -104,11 +113,33 @@ body{
   }
 }
 
+ul {
+  list-style: none;
+}
+
+ul li::marker {
+  display: none;
+}
+
+ul li::marker {
+  content: none;
+  /* This will remove the marker */
+}
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+  .custom-list {
+    @apply list-none;
+  }
+  
+  .custom-list li::marker {
+    content: none; /* Ensure markers are removed */
+  }
 }
+
