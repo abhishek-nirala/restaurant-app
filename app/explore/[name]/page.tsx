@@ -2,19 +2,28 @@
 import { useEffect, useState } from "react";
 import Image from 'next/image'
 import CustomerHeader from "@/app/_components/CustomerHeader";
+import Footer from "@/app/_components/Footer";
 interface Props {
     params: { name: string; };
     searchParams: { id: string }
 }
 
 const Page = (props: Props) => {
+    let cartStorageDetails;
     const [restaurantDetails, setRestaurantDetails] = useState({})
     const [foodItems, setfoodItems] = useState([])
     const [cart, setCart] = useState();
+    const [removeCartId, setremoveCartId] = useState();
     const name = props.params.name //used in dynamic routes to access the dynamic parts of a URL. mostly in page.tsx
 
-    const cartStore = localStorage.getItem('cart')
-    const cartStorageDetails = cartStore ? JSON.parse(cartStore) : null;
+    try {
+        const cartStore = localStorage.getItem('cart')
+        cartStorageDetails = cartStore ? JSON.parse(cartStore) : null;
+    } catch (err) {
+        console.log("Error : ", err);
+
+    }
+
     const [cartStorage, setCartStorage] = useState(cartStorageDetails || [])
     const [cartId, setCartId] = useState(() => cartStorage.map((item: { _id: string }) => {
         return item._id;
@@ -47,6 +56,15 @@ const Page = (props: Props) => {
         const localCartId = cartId;
         localCartId.push(item._id);
         setCartId(localCartId)
+        setremoveCartId(undefined);
+
+    }
+
+    const removeFromCart = (id: string) => {
+        setremoveCartId(id);
+        const removingId = cartId.filter((itm: string) => itm != id)
+        setCart(undefined);
+        setCartId(removingId)
     }
 
     // console.log(cart)
@@ -54,10 +72,10 @@ const Page = (props: Props) => {
 
 
     return (<>
-        <CustomerHeader cartData={cart} />
+        <CustomerHeader cartData={cart} removeCartItem={removeCartId} />
         <div>
             <div className="main-div text-center">
-                <h1 className=" text-5xl m-14 mt-[250px] ">{decodeURI(name)}</h1>
+                <h1 className=" text-5xl m-14 mt-[250px] capitalize">{decodeURI(name)}</h1>
             </div>
             <div className="flex justify-between items-center p-5 text-2xl  bg-orange-600 h-12">
                 {/* <h3>{restaurantDetails?.name}</h3> */}
@@ -67,7 +85,7 @@ const Page = (props: Props) => {
             </div>
             <div>
                 {
-                    foodItems.map((items, key) => (
+                    foodItems.length > 0 ? foodItems.map((items, key) => (
                         <div key={key} className="flex h-60 border  items-center">
                             <div className="grid place-items-center h-[80%] w-[30%]">
                                 <li><Image src={items.dishImgPath} width={100} height={70} alt="dish item image" className="w-[220px] h-[150px] object-cover " /></li>
@@ -80,16 +98,18 @@ const Page = (props: Props) => {
                                 </ul>
                                 {
                                     cartId.includes(items._id) ?
-                                        <button className="border p-2 rounded-lg bg-orange-600" >Remove from Cart</button>
+                                        <button className="border p-2 rounded-lg bg-orange-600" onClick={() => removeFromCart(items._id)}>Remove from Cart</button>
                                         :
                                         <button className="border p-2 rounded-lg bg-orange-600" onClick={() => addToCart(items)}>Add to Cart</button>
                                 }
                             </div>
                         </div>
                     ))
+                        : <h1 className="capitalize">no dishes for this restaurant</h1>
                 }
             </div>
         </div >
+        <Footer />
     </>)
 }
 

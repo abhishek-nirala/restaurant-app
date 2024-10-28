@@ -68,7 +68,7 @@ export default function Home() {
     loadRestaurants({ location: item })
   }
 
-  console.log(restaurants);
+  // console.log(restaurants);
 
   return (
     <div className="">
@@ -95,9 +95,9 @@ export default function Home() {
           {restaurants.map((items: ItemsList, key) => (
             <Card key={key} className="bg-[#123]" onClick={()=>router.push(`/explore/${items.name}?id=${items._id}`)}>
               <CardHeader>
-                <CardTitle>{items.name}</CardTitle>
-                <CardDescription>{items.contact}</CardDescription>
-                <p>{items.city}</p>
+                <CardTitle className="capitalize">{items.name}</CardTitle>
+                <CardDescription>Contact : {items.contact}</CardDescription>
+                <p className="capitalize">City : {items.city}</p>
                 <p>{items.email}</p>
               </CardHeader>
             </Card>
