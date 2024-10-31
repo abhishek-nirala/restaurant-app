@@ -1,17 +1,17 @@
 import { connectionStr } from "@/app/_lib/db.connectionStr";
 import Restaurant from "@/app/_lib/restaurant.model";
 import mongoose from "mongoose";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 
-interface RestaurantSchema {
-    email : string;
-    name : string;
-    password : string;
-    city : string;
-    contact : number;
-    login : boolean;
-}
+// interface RestaurantSchema {
+//     email : string;
+//     name : string;
+//     password : string;
+//     city : string;
+//     contact : number;
+//     login : boolean;
+// }
 
 mongoose.connect(connectionStr)
     .then(() => console.log("mongodb connected"))
@@ -30,9 +30,9 @@ export async function GET() {
     return NextResponse.json({ data, success })
 }
 
-export async function POST(response: NextResponse) {
+export async function POST(response: NextRequest) {
 
-    const payload:RestaurantSchema = await response.json()
+    const payload= await response.json()
     let result;
     let success = false;
     if (payload.login) {

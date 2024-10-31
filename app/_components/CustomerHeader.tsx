@@ -14,19 +14,23 @@ interface CartData {
 }
 const CustomerHeader: React.FC<{ cartData: CartData, removeCartItem: string }> = ({ cartData, removeCartItem }) => {
 
-    const cartStorage = localStorage.getItem('cart')
-    const cartStorageDetails = cartStorage ? JSON.parse(cartStorage) : null;
 
-    const [cartNumber, setCartNumber] = useState(cartStorageDetails?.length); //no of cartItems.
-    const [cartItem, setCartItem] = useState<CartData[]>(cartStorageDetails)  //all the cart items are stored in it.
+
+    const [cartNumber, setCartNumber] = useState<number>(); //no. of cartItems.
+    const [cartItem, setCartItem] = useState<CartData[]>()  //all the cart items are stored in it.
 
     useEffect(() => {
+        const cartStorage = localStorage.getItem('cart')
+        const cartStorageDetails = cartStorage ? JSON.parse(cartStorage) : null;
+        setCartNumber(cartStorageDetails?.length)
+        setCartItem(cartStorageDetails)
+
         if (cartData) {
             // console.log('cartdata  : ', cartData);
 
             if (cartNumber) {
                 const localCartItem = cartItem;
-                localCartItem.push(JSON.parse(JSON.stringify(cartData))); //shalow copy and deep copy
+                localCartItem.push(JSON.parse(JSON.stringify(cartData)))//shalow copy and deep copy
                 setCartItem(localCartItem);
                 setCartNumber(cartNumber + 1)
                 localStorage.setItem('cart', JSON.stringify(localCartItem))
@@ -74,7 +78,7 @@ const CustomerHeader: React.FC<{ cartData: CartData, removeCartItem: string }> =
                     <Link className="text-2xl " href="/">SignUP</Link>
                 </li>
                 <li className="px-5">
-                    <Link className="text-2xl " href={cartNumber?"/cart":"#"}>Cart({cartNumber ? cartNumber : 0})</Link>
+                    <Link className="text-2xl " href={cartNumber ? "/cart" : "#"}>Cart({cartNumber ? cartNumber : 0})</Link>
                 </li>
 
 
