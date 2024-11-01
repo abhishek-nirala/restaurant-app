@@ -1,6 +1,12 @@
-
+import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { IUser } from '../api/user/route';
 
+
+export interface UserData {
+    result : IUser;
+    success ?: boolean;
+} 
 
 const UserSignUp = () => {
 
@@ -14,6 +20,7 @@ const UserSignUp = () => {
     const [contact, setContact] = useState('')
     const [error, setError] = useState(false)
     const [passwordError, setPasswordError] = useState(false)
+    const router = useRouter();
 
     const handleSignup = async () => {
         console.log(name, email, password, c_password, city, address, contact);
@@ -34,8 +41,14 @@ const UserSignUp = () => {
             method: 'POST',
             body: JSON.stringify({ name, email, password, city, address, contact })
         })
-        const result = await response.json();
-        if (result) alert("successfully signedUP")
+        const data:UserData= await response.json();
+        console.log(data)
+        if (data.success) {
+            const {result} = data as {result: IUser };
+            delete result.password;
+            localStorage.setItem('user', JSON.stringify(data));
+            router.push('/')
+        }
 
 
     }
@@ -43,9 +56,9 @@ const UserSignUp = () => {
     return (<div>
         <div className='flex justify-center items-center w-full h-screen   '>
 
-            <h1 className='text-5xl wrapper w-[50%] h-[100%] flex justify-center items-center'>SignUP</h1>
+            <h1 className='text-5xl wrapper   h-[100%] flex justify-center items-center'>SignUP</h1>
 
-            <div className="wrapper gap-8 flex-col w-[50%] h-[100%] flex justify-center items-center">
+            <div className="wrapper gap-8 flex-col  w-[50%] h-[100%] flex justify-center items-center">
 
 
                 <div className="flex ">
@@ -54,8 +67,8 @@ const UserSignUp = () => {
                         type="text"
                         name='name'
                         placeholder='Enter Your name'
-                        value={name}
                         onChange={(e) => setName(e.target.value.replace(/\b\w/g, char => char.toUpperCase()))}
+                        value={name}
                         autoFocus autoCapitalize="characters" />
 
                     {error && !name && <span className='text-red-500'>restaurant

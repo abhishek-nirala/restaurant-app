@@ -49,7 +49,7 @@ const SignUp = () => {
             body: JSON.stringify({ email, name, password,city, contact })
         })
         const data: ApiResponse = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if (data.success) {
             const { result } = data as {result: RestaurantsDetails };

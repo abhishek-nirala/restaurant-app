@@ -1,19 +1,22 @@
+
+//for user signup
+
 import { connectionStr } from "@/app/_lib/db.connectionStr";
 import User from "@/app/_lib/user.model";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
-interface IUser {
-    email : string;
-    name : string;
-    password : string;
-    city : string;
-    contact : number;
-    login : boolean;
+export interface IUser {
+    email: string;
+    name: string;
+    password?: string;
+    city: string;
+    contact: number;
+    login: boolean;
 }
-type UserDocument = Document & IUser;
+export type UserDocument = Document & IUser;
 
-const connectToDb = async () => {
+export const connectToDb = async () => {
     if (mongoose.connection.readyState === 0) {
         await mongoose.connect(connectionStr)
             .then(() => console.log("mongodb successfully connected at api/customer/location"))
@@ -21,14 +24,18 @@ const connectToDb = async () => {
     }
 }
 
+
 export async function GET() {
-    return NextResponse.json({ success: true })
+    await connectToDb();
+
+    const result = await User.find();
+    return NextResponse.json({ result, success: true })
 }
 
 export async function POST(request: NextRequest) {
     const payload = await request.json();
     let success = false;
-    let result: UserDocument  | null = null;
+    let result: UserDocument | null = null;
     try {
         await connectToDb();
         const user = new User(payload)
@@ -37,5 +44,5 @@ export async function POST(request: NextRequest) {
     } catch (err) {
         console.log("Error while saving data of the user : ", err);
     }
-    return NextResponse.json({result, success})
+    return NextResponse.json({ result, success })
 }

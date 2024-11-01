@@ -3,6 +3,9 @@
 import Image from "next/image";
 import Link from 'next/link'
 import { useEffect, useState } from "react";
+import { IUser } from "../api/user/route";
+import { UserData } from "./UserSignUP";
+import { useRouter } from "next/navigation";
 
 interface CartData {
     items: Array<{
@@ -11,6 +14,11 @@ interface CartData {
         price: number;
         quantity: number;
     }>;
+    _id: number;
+}
+
+export const handleRenderSignupPage = ()=>{
+    return true;
 }
 const CustomerHeader: React.FC<{ cartData: CartData, removeCartItem: string }> = ({ cartData, removeCartItem }) => {
 
@@ -18,12 +26,17 @@ const CustomerHeader: React.FC<{ cartData: CartData, removeCartItem: string }> =
 
     const [cartNumber, setCartNumber] = useState<number>(); //no. of cartItems.
     const [cartItem, setCartItem] = useState<CartData[]>()  //all the cart items are stored in it.
+    const [user, setUser] = useState<IUser>()
+    const router = useRouter();
 
     useEffect(() => {
         const cartStorage = localStorage.getItem('cart')
         const cartStorageDetails = cartStorage ? JSON.parse(cartStorage) : null;
         setCartNumber(cartStorageDetails?.length)
         setCartItem(cartStorageDetails)
+
+        const userStorage: IUser = localStorage ? JSON.parse(localStorage.getItem('user')!) : null
+        setUser(userStorage);
 
         if (cartData) {
             // console.log('cartdata  : ', cartData);
@@ -43,6 +56,9 @@ const CustomerHeader: React.FC<{ cartData: CartData, removeCartItem: string }> =
         }
     }, [cartData])
 
+    // console.log(user);
+
+
     useEffect(() => {
         if (removeCartItem) {
 
@@ -59,27 +75,51 @@ const CustomerHeader: React.FC<{ cartData: CartData, removeCartItem: string }> =
         }
     }, [removeCartItem])
 
+
+    const logOut = () => {
+        localStorage.removeItem('user')
+        router.push('/user-auth')
+    }
+
+
     return (<div className="flex  justify-between items-center p-3">
         <div >
             <Image src="/logo.png" width={60} height={60} alt="restaurant logo" className="h-auto w-auto" />
         </div>
         <div>
             <ul className="flex items-center ">
+
+
+                {
+                    user ?
+                        <>
+                            <li className="px-5">
+                                <Link className="text-2xl" href="/">{user?.name.split(" ")[0]}</Link>
+                            </li>
+                            <li className="px-5">
+                                <button className="text-2xl " onClick={logOut}>LogOut</button>
+                            </li>
+
+                        </>
+                        :
+                        <>
+                            <li className="px-5">
+                                <Link className="text-2xl " href="/user-auth">Login</Link>
+                            </li>
+                        </>
+                }
                 <li className="px-5">
                     <Link className="text-2xl " href="/">Home</Link>
                 </li>
-                <li className="px-5">
-                    <Link className="text-2xl " href="/">Add Restaurant</Link>
-                </li>
-                <li className="px-5">
-                    <Link className="text-2xl " href="/">Login</Link>
-                </li>
-                <li className="px-5">
-                    <Link className="text-2xl " href="/">SignUP</Link>
-                </li>
+
                 <li className="px-5">
                     <Link className="text-2xl " href={cartNumber ? "/cart" : "#"}>Cart({cartNumber ? cartNumber : 0})</Link>
                 </li>
+
+                <li className="px-5">
+                    <Link className="text-2xl " href="/">Add Restaurant</Link>
+                </li>
+
 
 
 
