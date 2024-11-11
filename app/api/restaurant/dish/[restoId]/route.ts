@@ -17,7 +17,7 @@ mongoose.connect(connectionStr)
     .then(() => console.log("mongodb successfully connected at api/restaurant/dish/[restoId]/route.ts"))
     .catch((err: string) => console.log("error while connecting to mongodb err : ", err))
 
-export async function GET(request: NextResponse,content: Content) {
+export async function GET(req: NextResponse, content: Content) {
     let result, success = false;
 
     try {
@@ -32,13 +32,13 @@ export async function GET(request: NextResponse,content: Content) {
     return NextResponse.json({ result, success })
 }
 
-export async function DELETE(request: NextResponse,content: Content) {
+export async function DELETE(content: Content) {
     let result, success = false;
 
     try {
         const id = content.params.restoId;
         result = await Dish.deleteOne({ _id: id });
-        if (result.deletedCount>0) success = true;
+        if (result.deletedCount > 0) success = true;
 
     } catch (error) {
         console.log(error);

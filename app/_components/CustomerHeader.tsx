@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from 'next/link'
 import { useEffect, useState } from "react";
 import { IUser } from "../api/user/route";
-import { UserData } from "./UserSignUP";
+// import { UserData } from "./UserSignUP";
 import { useRouter } from "next/navigation";
 
 interface CartData {
@@ -17,18 +17,16 @@ interface CartData {
     _id: number;
 }
 
-export const handleRenderSignupPage = ()=>{
+export const handleRenderSignupPage = () => {
     return true;
 }
-const CustomerHeader: React.FC<{ cartData: CartData, removeCartItem: string }> = ({ cartData, removeCartItem }) => {
-
-
+const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: string }> = ({ cartData, removeCartItem }) => {
 
     const [cartNumber, setCartNumber] = useState<number>(); //no. of cartItems.
     const [cartItem, setCartItem] = useState<CartData[]>()  //all the cart items are stored in it.
     const [user, setUser] = useState<IUser>()
     const router = useRouter();
-
+    const isActive = (route: string) => router.pathname === route;
     useEffect(() => {
         const cartStorage = localStorage.getItem('cart')
         const cartStorageDetails = cartStorage ? JSON.parse(cartStorage) : null;
@@ -94,30 +92,33 @@ const CustomerHeader: React.FC<{ cartData: CartData, removeCartItem: string }> =
                     user ?
                         <>
                             <li className="px-5">
-                                <Link className="text-2xl" href="/">{user?.name.split(" ")[0]}</Link>
+                                <Link className="text-2xl active:text-orange-400 " href="/">{user?.name.split(" ")[0]}</Link>
                             </li>
                             <li className="px-5">
-                                <button className="text-2xl " onClick={logOut}>LogOut</button>
+                                <button className="text-2xl active:text-orange-400 " onClick={logOut}>LogOut</button>
                             </li>
 
                         </>
                         :
                         <>
                             <li className="px-5">
-                                <Link className="text-2xl " href="/user-auth">Login</Link>
+                                <Link className="text-2xl active:text-orange-400 " href="/user-auth">Login</Link>
                             </li>
                         </>
                 }
                 <li className="px-5">
-                    <Link className="text-2xl " href="/">Home</Link>
+                    <Link className={`text-2xl ${isActive('/') ? 'active' : ''}`} href="/">Home</Link>
+                </li>
+                <li className="px-5">
+                    <Link className="text-2xl active:text-orange-400 " href="/dishes">Dishes</Link>
                 </li>
 
                 <li className="px-5">
-                    <Link className="text-2xl " href={cartNumber ? "/cart" : "#"}>Cart({cartNumber ? cartNumber : 0})</Link>
+                    <Link className="text-2xl active:text-orange-400 " href={cartNumber ? "/cart" : "#"}>Cart({cartNumber ? cartNumber : 0})</Link>
                 </li>
 
                 <li className="px-5">
-                    <Link className="text-2xl " href="/">Add Restaurant</Link>
+                    <Link className="text-2xl active:text-orange-400 " href="/">Add Restaurant</Link>
                 </li>
 
 

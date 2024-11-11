@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 import Image from 'next/image'
 import CustomerHeader from "@/app/_components/CustomerHeader";
 import Footer from "@/app/_components/Footer";
-interface Props {
-    params: { name: string; };
-    searchParams: { id: string }
+export interface Props {
+    params?: { name: string; };
+    searchParams?: { id: string }
 }
 
 const Page = (props: Props) => {
     let cartStorageDetails;
     const [restaurantDetails, setRestaurantDetails] = useState({})
     const [foodItems, setfoodItems] = useState([])
-    const [cart, setCart] = useState();
+    const [cart, setCart] = useState('');
     const [removeCartId, setremoveCartId] = useState();
-    const name = props.params.name //used in dynamic routes to access the dynamic parts of a URL. mostly in page.tsx
+    const name = props.params?.name //used in dynamic routes to access the dynamic parts of a URL. mostly in page.tsx
 
     try {
         const cartStore = localStorage.getItem('cart')
@@ -36,7 +36,7 @@ const Page = (props: Props) => {
 
 
     const loadRestaurantDetails = async () => {
-        const id = props.searchParams.id; //is used to access query parameters from the URL. mostly in components.
+        const id = props.searchParams?.id; //is used to access query parameters from the URL. mostly in components.
         // console.log(id);
         try {
             const response = await fetch("http://localhost:3000/api/customer/" + id)

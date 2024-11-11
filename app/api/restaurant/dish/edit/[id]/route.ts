@@ -1,5 +1,5 @@
 import { connectionStr } from "@/app/_lib/db.connectionStr";
-import { NextResponse } from "next/server";
+import { NextResponse,NextRequest } from "next/server";
 import mongoose from 'mongoose';
 import Dish from "@/app/_lib/dishes.model";
 
@@ -10,7 +10,7 @@ mongoose.connect(connectionStr)
     .then(() => console.log("mongoose got connected sucessfully at /edit/[id]"))
     .catch((err) => console.log("mongose errro while connecting at /edit/[id]", err))
 
-export async function GET(request: NextResponse, content: Content) {
+export async function GET(req:NextResponse,content: Content) {
     let result, success = false;
     try {
 
@@ -25,7 +25,7 @@ export async function GET(request: NextResponse, content: Content) {
     return NextResponse.json({ result, success });
 }
 
-export async function PUT(request: NextResponse, content: Content) {
+export async function PUT(request: NextRequest, content: Content) {
     let result, success = false;
     const _id = content.params.id;
     try {
