@@ -26,7 +26,7 @@ const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: string }>
     const [cartItem, setCartItem] = useState<CartData[]>()  //all the cart items are stored in it.
     const [user, setUser] = useState<IUser>()
     const router = useRouter();
-    const isActive = (route: string) => router.pathname === route;
+    // const isActive = (route: string) => router.pathname === route;
     useEffect(() => {
         const cartStorage = localStorage.getItem('cart')
         const cartStorageDetails = cartStorage ? JSON.parse(cartStorage) : null;
@@ -92,7 +92,7 @@ const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: string }>
                     user ?
                         <>
                             <li className="px-5">
-                                <Link className="text-2xl active:text-orange-400 " href="/">{user?.name.split(" ")[0]}</Link>
+                                <Link className="text-2xl active:text-orange-400 " href="/">{user?.name?.split(" ")[0] || 'profile'}</Link>
                             </li>
                             <li className="px-5">
                                 <button className="text-2xl active:text-orange-400 " onClick={logOut}>LogOut</button>
@@ -107,7 +107,7 @@ const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: string }>
                         </>
                 }
                 <li className="px-5">
-                    <Link className={`text-2xl ${isActive('/') ? 'active' : ''}`} href="/">Home</Link>
+                    <Link className={`text-2xl`} href="/">Home</Link>
                 </li>
                 <li className="px-5">
                     <Link className="text-2xl active:text-orange-400 " href="/dishes">Dishes</Link>

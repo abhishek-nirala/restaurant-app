@@ -4,11 +4,13 @@ import CustomerHeader from "../_components/CustomerHeader";
 import Footer from "../_components/Footer";
 import UserSignUp from "../_components/UserSignUP";
 import UserLogin from "../_components/UserLogin";
-import { useEffect, useState } from "react";
-import { handleRenderSignupPage } from "../_components/CustomerHeader";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+// import { handleRenderSignupPage } from "../_components/CustomerHeader";
+// import { useRouter } from "next/navigation";
 
-const Auth = () => {
+const Auth = (props) => {
+    console.log("props : ", props);
+    
 
     const [signup, setSignup] = useState(false);
     
@@ -17,9 +19,9 @@ const Auth = () => {
         {/* <h1 className="text-5xl text-ce">User Sign-Up</h1> */}
         {
             signup ?
-                <UserSignUp />
+                <UserSignUp order={props.searchParams}/>
                 :
-                <UserLogin />
+                <UserLogin order={props.searchParams}/>
         }
         <div className="text-center text-xl">
             <button

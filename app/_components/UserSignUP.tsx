@@ -7,8 +7,12 @@ export interface UserData {
     result : IUser;
     success ?: boolean;
 } 
+export interface UserSignUpProps {
+    order?: boolean; 
+  }
+  
 
-const UserSignUp = () => {
+const UserSignUp:React.FC<UserSignUpProps> = ({order}) => {
 
     // const router = useRouter();
     const [name, setName] = useState('')
@@ -46,8 +50,10 @@ const UserSignUp = () => {
         if (data.success) {
             const {result} = data as {result: IUser };
             delete result.password;
-            localStorage.setItem('user', JSON.stringify(data));
-            router.push('/')
+            localStorage.setItem('user', JSON.stringify(result))
+            if(order) 
+            router.push('/dishes')
+            else router.push('/')
         }
 
 

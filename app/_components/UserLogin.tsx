@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { UserData } from "./UserSignUP"
+import { UserData, UserSignUpProps } from "./UserSignUP"
 import { useRouter } from "next/navigation"
-const UserLogin = () => {
+const UserLogin: React.FC<UserSignUpProps> = ({ order }) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState<string>('')
@@ -19,7 +19,8 @@ const UserLogin = () => {
             const { result } = data;
             delete result.password
             localStorage.setItem('user', JSON.stringify(result))
-            router.push('/')
+            if (order) router.push('/dishes')
+            else router.push('/')
         } else {
             alert("something went wrong! Please enter correct credentials")
         }
