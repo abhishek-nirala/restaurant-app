@@ -16,8 +16,9 @@ const Page = (props: Props) => {
     const [dishDescription, setDishDesciption] = useState('');
     const tax = 18
     const deliveryCharge = 49
-    const [quantity, setQuatity] = useState(1)
-    const [showPopup, setShowPopup] = useState(false);
+    let [quantity, setQuantity] = useState(1)
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
+    const [showOrderPopup, setShowOrderPopup] = useState(false);
 
     useEffect(() => {
         loadDishDetails();
@@ -49,18 +50,29 @@ const Page = (props: Props) => {
         const parsedUser = user ? JSON.parse(user) : null;
 
         if (parsedUser) {
-            alert('your order has been placed')
+            // alert('your order has been placed')
+            setShowOrderPopup(true);
             // router.push('/')
         }
         else
-            setShowPopup(true);
+            // setShowLoginPopup(true);
+            setShowLoginPopup(true);
         //  router.push('/user-auth?order=true')
     }
-    const handleOkClick = ()=>{
-        setShowPopup(false);
-        router.push('/user-auth?order=true')
+    const handleOkClick = (flag: boolean) => {
+
+        if (flag === true) {
+            setShowOrderPopup(false)
+            router.push('#')
+        } else {
+
+            // setShowLoginPopup(false);
+            setShowLoginPopup(false);
+            router.push('/user-auth?order=true')
+        }
     }
     const style = 'w-[250px] h-[250px] md:w-[500px] md:h-[500px] lg:w-[800px] lg:h-[800px] '
+    const GrandTotal = (Math.ceil(dishPrice + ((tax / 100) * dishPrice)) * quantity)+ deliveryCharge;
 
     return (<>
         <CustomerHeader />
@@ -78,32 +90,45 @@ const Page = (props: Props) => {
                     <p className="text-justify">Description : {dishDescription}</p>
 
                     <div>
-                        <p>Quantity : {quantity}</p>
+                        <div>Quantity : {quantity} 
+                            <button className="text-2xl p-1" onClick={()=>{if(quantity<=4)setQuantity(++quantity)}}>+</button>
+                            <button className="text-2xl p-1" onClick={()=>{if(quantity>1)setQuantity(--quantity)}}>-</button>
+                            </div>
                         <p>Price : {dishPrice}</p>
                         <p>Delivery charge : {deliveryCharge}rs</p>
                         <p>G.S.T : {tax}%</p>
                         <div className="border-b-4 border-slate-500 w-[300px] rounded my-3"></div>
-                        <p>Grand Total : {Math.ceil(dishPrice + deliveryCharge + ((tax / 100) * dishPrice)) * quantity}</p>
+                        <p>Grand Total : {GrandTotal}</p>
                     </div>
-
-
                     <button className="border rounded-lg p-2 mt-4 hover:bg-slate-700 active:bg-slate-900" onClick={handleOrderNow}>Order now</button>
                 </div>
-
-
             </div>
         </div>
 
 
         <div>
             {
-                showPopup && (<div className="popup ">
+                showOrderPopup && (<div className="popup ">
                     <div className="popup-content">
-                        <p>Login/Signup to place your order</p>
-                        <button onClick={handleOkClick}>OK</button>
+                        <p>Your order has been placed</p>
+                        <p> Name : {dishName}</p>
+                        <p>Total Amount  : {GrandTotal}</p>
+                        <p>{dishName}</p>
+                        <button onClick={() => handleOkClick(true)}>OK</button>
                     </div>
                 </div>)
-            } </div>
+            }
+        </div>
+        <div>
+            {
+                showLoginPopup && (<div className="popup ">
+                    <div className="popup-content">
+                        <p>Login/Signup to place your order</p>
+                        <button onClick={() => handleOkClick(false)}>OK</button>
+                    </div>
+                </div>)
+            }
+        </div>
 
         <Footer />
     </>)

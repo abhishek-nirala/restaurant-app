@@ -92,7 +92,7 @@ const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: string }>
                     user ?
                         <>
                             <li className="px-5">
-                                <Link className="text-2xl active:text-orange-400 " href="/">{user?.name?.split(" ")[0] || 'profile'}</Link>
+                                <Link className="text-2xl active:text-orange-400 " href="/myProfile">{user?.name?.split(" ")[0] || 'profile'}</Link>
                             </li>
                             <li className="px-5">
                                 <button className="text-2xl active:text-orange-400 " onClick={logOut}>LogOut</button>
