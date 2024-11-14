@@ -7,7 +7,7 @@ import { IUser } from "../api/user/route";
 // import { UserData } from "./UserSignUP";
 import { useRouter } from "next/navigation";
 
-interface CartData {
+export interface CartData {
     items: Array<{
         id: number;
         name: string;
@@ -20,9 +20,9 @@ interface CartData {
 export const handleRenderSignupPage = () => {
     return true;
 }
-const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: string }> = ({ cartData, removeCartItem }) => {
+const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: number }> = ({ cartData, removeCartItem }) => {
 
-    const [cartNumber, setCartNumber] = useState<number>(); //no. of cartItems.
+    const [cartNumber, setCartNumber] = useState<number>(0); //no. of cartItems.
     const [cartItem, setCartItem] = useState<CartData[]>()  //all the cart items are stored in it.
     const [user, setUser] = useState<IUser>()
     const router = useRouter();
@@ -41,10 +41,12 @@ const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: string }>
 
             if (cartNumber) {
                 const localCartItem = cartItem;
-                localCartItem.push(JSON.parse(JSON.stringify(cartData)))//shalow copy and deep copy
-                setCartItem(localCartItem);
-                setCartNumber(cartNumber + 1)
-                localStorage.setItem('cart', JSON.stringify(localCartItem))
+                if (localCartItem) {
+                    localCartItem.push(JSON.parse(JSON.stringify(cartData)))//shalow copy and deep copy
+                    setCartItem(localCartItem);
+                    setCartNumber(cartNumber + 1)
+                    localStorage.setItem('cart', JSON.stringify(localCartItem))
+                }
             } else {
                 setCartNumber(1)
                 setCartItem([cartData])
@@ -52,17 +54,20 @@ const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: string }>
             }
 
         }
-    }, [cartData])
+    }, [cartData, cartItem,cartNumber])
 
     // console.log(user);
 
 
     useEffect(() => {
         if (removeCartItem) {
+            let remainedItem:CartData[] | undefined = undefined;
+            if(cartItem){
 
-            const remainedItem = cartItem.filter((itm) => {
-                return itm._id != removeCartItem
-            })
+                 remainedItem = cartItem.filter((itm) => {
+                    return itm._id != removeCartItem
+                })
+            }
 
             setCartItem(remainedItem);
             setCartNumber(cartNumber - 1)
@@ -71,7 +76,7 @@ const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: string }>
                 localStorage.removeItem('cart')
             }
         }
-    }, [removeCartItem])
+    }, [removeCartItem, cartItem,cartNumber])
 
 
     const logOut = () => {
@@ -118,7 +123,7 @@ const CustomerHeader: React.FC<{ cartData?: CartData, removeCartItem?: string }>
                 </li>
 
                 <li className="px-5">
-                    <Link className="text-2xl active:text-orange-400 " href="/">Add Restaurant</Link>
+                    <Link className="text-2xl active:text-orange-400 " href="/register">Add Restaurant</Link>
                 </li>
 
 

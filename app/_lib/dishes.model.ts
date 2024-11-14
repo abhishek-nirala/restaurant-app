@@ -1,5 +1,13 @@
 import mongoose from "mongoose";
 
+export interface DishType  {
+  dishName:string,
+  dishPrice: number,
+  dishImgPath:string,
+  dishDescription:string,
+  restoId: mongoose.Schema.Types.ObjectId,
+}
+
 const dishesSchema = new mongoose.Schema({
   dishName: String,
   dishPrice: Number,

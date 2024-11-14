@@ -11,7 +11,7 @@ const Register = () => {
   return (
     <div className='text-center'>
       <Header/> 
-      <h1 className='text-3xl'>Register</h1>
+      <h1 className='text-3xl'>Register for a Restaurant</h1>
       {
         login ? <Login  /> : <SignUp />
       }

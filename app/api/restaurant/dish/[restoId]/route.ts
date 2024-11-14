@@ -1,6 +1,6 @@
 import { connectionStr } from "@/app/_lib/db.connectionStr";
 import Dish from "@/app/_lib/dishes.model";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import mongoose from 'mongoose'
 // import { NextApiResponse} from 'next'
 
@@ -32,7 +32,7 @@ export async function GET(req: NextResponse, content: Content) {
     return NextResponse.json({ result, success })
 }
 
-export async function DELETE(content: Content) {
+export async function DELETE(req : NextRequest, content: Content) {
     let result, success = false;
 
     try {

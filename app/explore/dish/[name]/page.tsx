@@ -16,13 +16,15 @@ const Page = (props: Props) => {
     const [dishDescription, setDishDesciption] = useState('');
     const tax = 18
     const deliveryCharge = 49
-    let [quantity, setQuantity] = useState(1)
+    const [quantity, setQuantity] = useState(1)
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [showOrderPopup, setShowOrderPopup] = useState(false);
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         loadDishDetails();
     }, [])
+    /* eslint-disable react-hooks/exhaustive-deps */
 
 
     const loadDishDetails = async () => {
@@ -71,8 +73,18 @@ const Page = (props: Props) => {
             router.push('/user-auth?order=true')
         }
     }
+    const incrementQuantity = () => {
+        if (quantity < 5) {
+            setQuantity(prevQuantity => prevQuantity + 1);
+        }
+    };
+    const decrementQuantity = () => {
+        if (quantity > 1) {
+            setQuantity(prevQuantity => prevQuantity - 1);
+        }
+    };
     const style = 'w-[250px] h-[250px] md:w-[500px] md:h-[500px] lg:w-[800px] lg:h-[800px] '
-    const GrandTotal = (Math.ceil(dishPrice + ((tax / 100) * dishPrice)) * quantity)+ deliveryCharge;
+    const GrandTotal = (Math.ceil(dishPrice + ((tax / 100) * dishPrice)) * quantity) + deliveryCharge;
 
     return (<>
         <CustomerHeader />
@@ -90,10 +102,11 @@ const Page = (props: Props) => {
                     <p className="text-justify">Description : {dishDescription}</p>
 
                     <div>
-                        <div>Quantity : {quantity} 
-                            <button className="text-2xl p-1" onClick={()=>{if(quantity<=4)setQuantity(++quantity)}}>+</button>
-                            <button className="text-2xl p-1" onClick={()=>{if(quantity>1)setQuantity(--quantity)}}>-</button>
-                            </div>
+                        <div>Quantity : {quantity}
+                            <button className="text-2xl p-1" onClick={incrementQuantity}>+</button>
+                            <button className="text-2xl p-1" onClick={decrementQuantity}>-</button>
+                        </div>
+
                         <p>Price : {dishPrice}</p>
                         <p>Delivery charge : {deliveryCharge}rs</p>
                         <p>G.S.T : {tax}%</p>

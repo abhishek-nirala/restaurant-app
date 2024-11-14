@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+// import { useState } from "react";
 import CustomerHeader from "../_components/CustomerHeader"
 import Footer from "../_components/Footer"
 // import Image from "next/image";
@@ -8,7 +8,7 @@ const OrderPage = () => {
 
     const cartStorageString = localStorage.getItem('cart');
     const cartStorageJson = cartStorageString ? JSON.parse(cartStorageString) : null;
-    const [cartStorage, setCartStorage] = useState(cartStorageJson?cartStorageJson : [])
+    const cartStorage = cartStorageJson?cartStorageJson : []
     console.log('at cartStorage',cartStorage)
 
     return (<>

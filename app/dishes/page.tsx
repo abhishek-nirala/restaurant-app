@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import CustomerHeader from "../_components/CustomerHeader";
 import Footer from "../_components/Footer";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -42,10 +42,10 @@ const Dishes = () => {
 
     const getPreview = (text: string, wordLimit: number) => {
         const desc = text.split(' ');
-        console.log('desc : ', desc);
+        // console.log('desc : ', desc);
 
         const word = desc.slice(0, wordLimit).join(' ')+"..."
-        console.log('word : ', word);
+        // console.log('word : ', word);
 
         return word;
     }

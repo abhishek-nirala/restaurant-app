@@ -1,19 +1,21 @@
 'use client'
 import { useEffect, useState } from "react";
 import Image from 'next/image'
-import CustomerHeader from "@/app/_components/CustomerHeader";
+import CustomerHeader, { CartData } from "@/app/_components/CustomerHeader";
 import Footer from "@/app/_components/Footer";
 export interface Props {
     params?: { name: string; };
     searchParams?: { id: string }
 }
 
+interface IdObject { _id: string; }
+
 const Page = (props: Props) => {
     let cartStorageDetails;
     const [restaurantDetails, setRestaurantDetails] = useState({})
     const [foodItems, setfoodItems] = useState([])
-    const [cart, setCart] = useState('');
-    const [removeCartId, setremoveCartId] = useState();
+    const [cart, setCart] = useState<undefined | CartData | IdObject>();
+    const [removeCartId, setremoveCartId] = useState<string|number | undefined>();
     const name = props.params?.name //used in dynamic routes to access the dynamic parts of a URL. mostly in page.tsx
 
     try {
@@ -24,15 +26,17 @@ const Page = (props: Props) => {
 
     }
 
-    const [cartStorage, setCartStorage] = useState(cartStorageDetails || [])
+    const cartStorage = cartStorageDetails
     const [cartId, setCartId] = useState(() => cartStorage.map((item: { _id: string }) => {
         return item._id;
     }))
-
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         loadRestaurantDetails()
     }, []);
-    console.log(cartId);
+    /* eslint-disable react-hooks/exhaustive-deps */
+
+    // console.log(cartId);
 
 
     const loadRestaurantDetails = async () => {

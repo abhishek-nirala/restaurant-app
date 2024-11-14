@@ -19,10 +19,11 @@ const EditDishes: React.FC<AddDishesProps> = (props) => {
     const [description, setDiscription] = useState('')
     const [error, setError] = useState(false)
     const router = useRouter();
-
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         handleUpdate();
     }, [])
+    /* eslint-disable react-hooks/exhaustive-deps */
 
     const handleUpdate = async () => {
         try {
