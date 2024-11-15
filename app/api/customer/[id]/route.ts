@@ -30,7 +30,7 @@ const connectToMongoDb = async () => {
 
 export async function GET(request:NextRequest, content: { params: { id: string; } }) {
     await connectToMongoDb();
-    let foodItems:FoodItems | null = null, details:RestaurantSchema | null = null;
+    let foodItems:FoodItems[] | null = null, details:RestaurantSchema | null = null;
     const id = content.params.id;
     try {
 

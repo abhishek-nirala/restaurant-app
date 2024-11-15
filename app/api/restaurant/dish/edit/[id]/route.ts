@@ -10,7 +10,7 @@ mongoose.connect(connectionStr)
     .then(() => console.log("mongoose got connected sucessfully at /edit/[id]"))
     .catch((err) => console.log("mongose errro while connecting at /edit/[id]", err))
 
-export async function GET(req:NextResponse,content: Content) {
+export async function GET(req:NextRequest,content: Content) {
     let result, success = false;
     try {
 

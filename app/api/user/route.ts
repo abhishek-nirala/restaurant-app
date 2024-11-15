@@ -16,7 +16,7 @@ export interface IUser {
 }
 export type UserDocument = Document & IUser;
 
-export const connectToDb = async () => {
+ const connectToDb = async ():Promise<void> => {
     if (mongoose.connection.readyState === 0) {
         await mongoose.connect(connectionStr)
             .then(() => console.log("mongodb successfully connected at api/customer/location"))

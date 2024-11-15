@@ -1,6 +1,6 @@
 import { connectionStr } from "@/app/_lib/db.connectionStr";
 import Dish from "@/app/_lib/dishes.model";
-import { NextRequest, NextResponse } from "next/server";
+import {  NextRequest, NextResponse } from "next/server";
 import mongoose from 'mongoose'
 // import { NextApiResponse} from 'next'
 
@@ -17,7 +17,7 @@ mongoose.connect(connectionStr)
     .then(() => console.log("mongodb successfully connected at api/restaurant/dish/[restoId]/route.ts"))
     .catch((err: string) => console.log("error while connecting to mongodb err : ", err))
 
-export async function GET(req: NextResponse, content: Content) {
+export async function GET(req: NextRequest, content: Content) {
     let result, success = false;
 
     try {

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface AddDishesProps {
-    setItem: React.Dispatch<React.SetStateAction<boolean>>
+    // setItem: React.Dispatch<React.SetStateAction<boolean>>
     params: { id: string; };
 }
 

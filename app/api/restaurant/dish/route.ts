@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Dish from "@/app/_lib/dishes.model";
 import { connectionStr } from "@/app/_lib/db.connectionStr";
 import mongoose from 'mongoose'
@@ -12,7 +12,7 @@ export async function GET() {
     return NextResponse.json({ msg: "true" })
 }
 
-export async function POST(request: NextResponse) {
+export async function POST(request: NextRequest) {
     const payload = await request.json();
     let result , success=false; 
     try {
